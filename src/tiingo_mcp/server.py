@@ -22,7 +22,7 @@ from tiingo_mcp.client import get_client
 # This runs before any tool is called, so TIINGO_API_KEY is available
 # regardless of whether the server is launched via `just serve` or
 # directly by Claude Code.
-load_dotenv(Path(__file__).parents[3] / ".env")
+load_dotenv(Path(__file__).parents[2] / ".env")
 
 mcp = FastMCP("tiingo")
 
