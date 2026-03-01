@@ -11,6 +11,9 @@ Configure:   TIINGO_API_KEY environment variable
 
 from __future__ import annotations
 
+import csv
+import io
+import zipfile
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -159,6 +162,59 @@ async def get_dividend_distributions(
         start_ex_date=start_ex_date,
         end_ex_date=end_ex_date,
     )
+
+
+@mcp.tool()
+async def search_tickers(query: str) -> list[dict]:
+    """
+    Search for tickers by name or symbol.
+
+    Returns a list of matches with fields:
+      ticker, name, permaTicker, openFIGIComposite, assetType, isActive, countryCode
+
+    permaTicker is a stable identifier that persists across ticker renames —
+    useful for linking a delisted ticker (e.g. "FB") to its renamed successor
+    ("META") when both share the same permaTicker.
+
+    Args:
+        query: Company name or ticker symbol to search for
+    """
+    return await get_client().search_tickers(query=query)
+
+
+@mcp.tool()
+async def get_supported_tickers(
+    asset_type: str | None = None,
+    exchange: str | None = None,
+) -> list[dict]:
+    """
+    Download the complete Tiingo supported tickers list (~80 000 tickers).
+
+    Includes delisted tickers — identify them by a past endDate.
+    Use this to find canonical ticker symbols, check if a ticker is active,
+    or build a rename map (old ticker delisted same day new ticker listed).
+
+    Returns a list of dicts with fields:
+      ticker, exchange, assetType, priceCurrency, startDate, endDate
+
+    Args:
+        asset_type: Filter by assetType, e.g. "Stock", "ETF", "Mutual Fund" (optional)
+        exchange:   Filter by exchange, e.g. "NASDAQ", "NYSE" (optional)
+    """
+    raw_zip = await get_client().supported_tickers()
+    with zipfile.ZipFile(io.BytesIO(raw_zip)) as zf:
+        name = zf.namelist()[0]
+        csv_text = zf.read(name).decode("utf-8")
+
+    reader = csv.DictReader(io.StringIO(csv_text))
+    rows = []
+    for row in reader:
+        if asset_type and row.get("assetType", "").lower() != asset_type.lower():
+            continue
+        if exchange and row.get("exchange", "").lower() != exchange.lower():
+            continue
+        rows.append(row)
+    return rows
 
 
 @mcp.tool()
