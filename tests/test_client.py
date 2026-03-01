@@ -52,6 +52,51 @@ async def test_splits(client):
 
 
 @respx.mock
+async def test_search_tickers(client):
+    respx.get(f"{BASE}/tiingo/utilities/search").mock(
+        return_value=httpx.Response(200, json=[
+            {"ticker": "AAPL", "name": "Apple Inc", "permaTicker": "US000000000084",
+             "isActive": True, "assetType": "Stock"},
+        ])
+    )
+    result = await client.search_tickers("Apple")
+    assert len(result) == 1
+    assert result[0]["ticker"] == "AAPL"
+    assert result[0]["permaTicker"] == "US000000000084"
+
+
+@respx.mock
+async def test_search_tickers_passes_query_param(client):
+    route = respx.get(f"{BASE}/tiingo/utilities/search").mock(
+        return_value=httpx.Response(200, json=[])
+    )
+    await client.search_tickers("meta platforms")
+    assert "query=meta+platforms" in str(route.calls[0].request.url)
+
+
+@respx.mock
+async def test_supported_tickers(client):
+    """supported_tickers hits an absolute URL and returns raw ZIP bytes."""
+    zip_url = "https://apimedia.tiingo.com/docs/tiingo/daily/supported_tickers.zip"
+    fake_zip = b"PK\x03\x04fake-zip-content"
+    respx.get(zip_url).mock(
+        return_value=httpx.Response(200, content=fake_zip)
+    )
+    result = await client.supported_tickers()
+    assert result == fake_zip
+
+
+@respx.mock
+async def test_supported_tickers_http_error(client):
+    zip_url = "https://apimedia.tiingo.com/docs/tiingo/daily/supported_tickers.zip"
+    respx.get(zip_url).mock(
+        return_value=httpx.Response(503, text="Service Unavailable")
+    )
+    with pytest.raises(httpx.HTTPStatusError):
+        await client.supported_tickers()
+
+
+@respx.mock
 async def test_http_error_raises(client):
     respx.get(f"{BASE}/tiingo/daily/FAKE/prices").mock(
         return_value=httpx.Response(404, text="Not Found")
