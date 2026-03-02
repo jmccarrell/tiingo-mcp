@@ -26,14 +26,38 @@ def _make_zip_csv(rows: list[dict]) -> bytes:
 
 
 SAMPLE_ROWS = [
-    {"ticker": "AAPL", "exchange": "NASDAQ", "assetType": "Stock",
-     "priceCurrency": "USD", "startDate": "1980-12-12", "endDate": ""},
-    {"ticker": "SPY", "exchange": "NYSE ARCA", "assetType": "ETF",
-     "priceCurrency": "USD", "startDate": "1993-01-29", "endDate": ""},
-    {"ticker": "VFIAX", "exchange": "", "assetType": "Mutual Fund",
-     "priceCurrency": "USD", "startDate": "2000-11-13", "endDate": ""},
-    {"ticker": "FB", "exchange": "NASDAQ", "assetType": "Stock",
-     "priceCurrency": "USD", "startDate": "2012-05-18", "endDate": "2022-06-08"},
+    {
+        "ticker": "AAPL",
+        "exchange": "NASDAQ",
+        "assetType": "Stock",
+        "priceCurrency": "USD",
+        "startDate": "1980-12-12",
+        "endDate": "",
+    },
+    {
+        "ticker": "SPY",
+        "exchange": "NYSE ARCA",
+        "assetType": "ETF",
+        "priceCurrency": "USD",
+        "startDate": "1993-01-29",
+        "endDate": "",
+    },
+    {
+        "ticker": "VFIAX",
+        "exchange": "",
+        "assetType": "Mutual Fund",
+        "priceCurrency": "USD",
+        "startDate": "2000-11-13",
+        "endDate": "",
+    },
+    {
+        "ticker": "FB",
+        "exchange": "NASDAQ",
+        "assetType": "Stock",
+        "priceCurrency": "USD",
+        "startDate": "2012-05-18",
+        "endDate": "2022-06-08",
+    },
 ]
 
 

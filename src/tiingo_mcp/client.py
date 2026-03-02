@@ -131,9 +131,7 @@ class TiingoClient:
     async def supported_tickers(self) -> bytes:
         """Download the supported_tickers.zip CSV from Tiingo's media server.
         Returns raw ZIP bytes; caller unpacks."""
-        resp = await self._http.get(
-            "https://apimedia.tiingo.com/docs/tiingo/daily/supported_tickers.zip"
-        )
+        resp = await self._http.get("https://apimedia.tiingo.com/docs/tiingo/daily/supported_tickers.zip")
         resp.raise_for_status()
         return resp.content
 
