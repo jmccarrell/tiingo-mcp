@@ -2,6 +2,8 @@
 
 MCP server that exposes the Tiingo financial data API as Claude tools. Provides stock prices, fundamentals, news, dividends, splits, and ticker search.
 
+> **Python invocation:** always `uv run python` — never bare `python`/`python3`. Package ops via `uv add`/`uv sync`. (Repo-wide; see top-level CLAUDE.md.)
+
 ## Tool Inventory
 
 | Tool | Returns | Key Params |

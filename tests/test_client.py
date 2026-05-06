@@ -61,7 +61,7 @@ async def test_search_tickers(client):
                     "permaTicker": "US000000000084",
                     "isActive": True,
                     "assetType": "Stock",
-                },
+                }
             ],
         )
     )

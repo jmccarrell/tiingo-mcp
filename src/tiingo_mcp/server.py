@@ -69,10 +69,7 @@ async def get_end_of_day_prices(
                        "monthly", "annually" (optional)
     """
     return await get_client().end_of_day_prices(
-        ticker=ticker,
-        start_date=start_date,
-        end_date=end_date,
-        resample_freq=resample_freq,
+        ticker=ticker, start_date=start_date, end_date=end_date, resample_freq=resample_freq
     )
 
 
@@ -124,9 +121,7 @@ async def get_news(
 
 @mcp.tool()
 async def get_splits(
-    ticker: str,
-    start_ex_date: str | None = None,
-    end_ex_date: str | None = None,
+    ticker: str, start_ex_date: str | None = None, end_ex_date: str | None = None
 ) -> list[dict]:
     """
     Fetch historical stock split data for a ticker.
@@ -136,18 +131,12 @@ async def get_splits(
         start_ex_date: Earliest ex-date to include, YYYY-MM-DD (optional)
         end_ex_date:   Latest ex-date to include, YYYY-MM-DD (optional)
     """
-    return await get_client().splits(
-        ticker=ticker,
-        start_ex_date=start_ex_date,
-        end_ex_date=end_ex_date,
-    )
+    return await get_client().splits(ticker=ticker, start_ex_date=start_ex_date, end_ex_date=end_ex_date)
 
 
 @mcp.tool()
 async def get_dividend_distributions(
-    ticker: str,
-    start_ex_date: str | None = None,
-    end_ex_date: str | None = None,
+    ticker: str, start_ex_date: str | None = None, end_ex_date: str | None = None
 ) -> list[dict]:
     """
     Fetch historical dividend and distribution data for a ticker.
@@ -158,9 +147,7 @@ async def get_dividend_distributions(
         end_ex_date:   Latest ex-date to include, YYYY-MM-DD (optional)
     """
     return await get_client().dividend_distributions(
-        ticker=ticker,
-        start_ex_date=start_ex_date,
-        end_ex_date=end_ex_date,
+        ticker=ticker, start_ex_date=start_ex_date, end_ex_date=end_ex_date
     )
 
 
@@ -183,10 +170,7 @@ async def search_tickers(query: str) -> list[dict]:
 
 
 @mcp.tool()
-async def get_supported_tickers(
-    asset_type: str | None = None,
-    exchange: str | None = None,
-) -> list[dict]:
+async def get_supported_tickers(asset_type: str | None = None, exchange: str | None = None) -> list[dict]:
     """
     Download the complete Tiingo supported tickers list (~80 000 tickers).
 
@@ -219,10 +203,7 @@ async def get_supported_tickers(
 
 @mcp.tool()
 async def get_dividend_yield(
-    ticker: str,
-    start_date: str | None = None,
-    end_date: str | None = None,
-    columns: str | None = None,
+    ticker: str, start_date: str | None = None, end_date: str | None = None, columns: str | None = None
 ) -> list[dict]:
     """
     Fetch historical dividend yield data for a ticker.
@@ -234,10 +215,7 @@ async def get_dividend_yield(
         columns:    Comma-separated metric names to return (optional)
     """
     return await get_client().dividend_yield(
-        ticker=ticker,
-        start_date=start_date,
-        end_date=end_date,
-        columns=columns,
+        ticker=ticker, start_date=start_date, end_date=end_date, columns=columns
     )
 
 
@@ -258,10 +236,7 @@ async def get_fundamentals_meta() -> list[dict]:
 
 @mcp.tool()
 async def get_fundamentals_daily_metrics(
-    ticker: str,
-    start_date: str | None = None,
-    end_date: str | None = None,
-    columns: str | None = None,
+    ticker: str, start_date: str | None = None, end_date: str | None = None, columns: str | None = None
 ) -> list[dict]:
     """
     Fetch daily fundamental metrics for a ticker (PE ratio, market cap, etc.).
@@ -273,10 +248,7 @@ async def get_fundamentals_daily_metrics(
         columns:    Comma-separated metric names to return (optional)
     """
     return await get_client().fundamentals_daily(
-        ticker=ticker,
-        start_date=start_date,
-        end_date=end_date,
-        columns=columns,
+        ticker=ticker, start_date=start_date, end_date=end_date, columns=columns
     )
 
 
@@ -300,11 +272,7 @@ async def get_fundamentals_statements(
         quarter:    Fiscal quarter 1-4, or 0 for annual (optional)
     """
     return await get_client().fundamentals_statements(
-        ticker=ticker,
-        start_date=start_date,
-        end_date=end_date,
-        year=year,
-        quarter=quarter,
+        ticker=ticker, start_date=start_date, end_date=end_date, year=year, quarter=quarter
     )
 
 
