@@ -20,10 +20,7 @@ class TiingoClient:
     def __init__(self, api_key: str) -> None:
         self._http = httpx.AsyncClient(
             base_url=BASE_URL,
-            headers={
-                "Authorization": f"Token {api_key}",
-                "Content-Type": "application/json",
-            },
+            headers={"Authorization": f"Token {api_key}", "Content-Type": "application/json"},
             timeout=TIMEOUT,
         )
 
@@ -84,22 +81,14 @@ class TiingoClient:
     # ── Corporate actions ─────────────────────────────────────────────────
 
     async def splits(
-        self,
-        ticker: str,
-        start_ex_date: str | None = None,
-        end_ex_date: str | None = None,
+        self, ticker: str, start_ex_date: str | None = None, end_ex_date: str | None = None
     ) -> list[dict]:
         return await self.get(
-            f"/tiingo/corporate-actions/{ticker}/splits",
-            startExDate=start_ex_date,
-            endExDate=end_ex_date,
+            f"/tiingo/corporate-actions/{ticker}/splits", startExDate=start_ex_date, endExDate=end_ex_date
         )
 
     async def dividend_distributions(
-        self,
-        ticker: str,
-        start_ex_date: str | None = None,
-        end_ex_date: str | None = None,
+        self, ticker: str, start_ex_date: str | None = None, end_ex_date: str | None = None
     ) -> list[dict]:
         return await self.get(
             f"/tiingo/corporate-actions/{ticker}/distributions",
@@ -148,10 +137,7 @@ class TiingoClient:
         columns: str | None = None,
     ) -> list[dict]:
         return await self.get(
-            f"/tiingo/fundamentals/{ticker}/daily",
-            startDate=start_date,
-            endDate=end_date,
-            columns=columns,
+            f"/tiingo/fundamentals/{ticker}/daily", startDate=start_date, endDate=end_date, columns=columns
         )
 
     async def fundamentals_statements(
