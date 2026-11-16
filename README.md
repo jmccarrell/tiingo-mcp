@@ -22,13 +22,20 @@ just install
 
 ### 2 — Add your API key
 
+On lyra, skip this: the agent-home Claude Code plugin starts the server with
+`TIINGO_API_KEY` read from OpenBao (`kv-invest/tiingo/tiingo-api-token`), so
+the clone needs no `.env`.
+
+Elsewhere, `.env` is the fallback:
+
 ```bash
 cp .env.example .env
 # edit .env and set TIINGO_API_KEY=your-token-here
 ```
 
 The server loads `.env` from the project root at startup, so the key is never
-needed in your shell profile or in Claude's config.
+needed in your shell profile or in Claude's config. A `TIINGO_API_KEY` already
+in the environment wins over `.env`.
 
 ### 3 — Register with Claude Code
 
@@ -38,6 +45,8 @@ just install-mcp
 
 Adds `tiingo-mcp` to Claude Code's user-scoped MCP config so it is available
 in every project — not just this directory.
+
+On lyra, skip this too: the agent-home plugin registers the server.
 
 Verify it registered:
 
@@ -75,7 +84,7 @@ the Tiingo API.
 
 | Variable | Description |
 |---|---|
-| `TIINGO_API_KEY` | Tiingo API token — stored in `.env`, never committed |
+| `TIINGO_API_KEY` | Tiingo API token — from OpenBao on lyra, else `.env`; never committed |
 
 ## Project layout
 
